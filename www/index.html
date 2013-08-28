@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
     <head>
         <title>BEST • Customer Service • Ticket #201308270001</title>
         <meta charset="utf-8" />
@@ -12,6 +12,8 @@
         <script src="js/jquery.js"></script>
         <!-- Knockout -->
         <script src="js/knockout.js"></script>
+        <!-- Sugar -->
+        <script src="js/sugar.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.js"></script>
         <script src="js/bootstrap-tokenfield.js"></script>
@@ -68,19 +70,19 @@
                     <div class="alert alert-warning"><a href="#" class="alert-link">Lorenzo Di Pace</a> is also viewing this ticket.</div>
                     <fieldset class="well">
                         <label>Response time</label>
-                        <div class="progress">
+                        <div class="progress" data-bind="css: { 'progress-striped': status() == 0, 'active': status() == 0 }">
                             <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="progress-bar" data-bind="css: { 'progress-bar-success': responseProgress(responseTime()) <= 50, 'progress-bar-warning': responseProgress(responseTime()) > 50 && responseProgress(responseTime()) < 100, 'progress-bar-danger': responseProgress(responseTime()) == 100 }, style: { width: responseProgress(responseTime()) + '%' }, attr: { 'aria-valuenow': responseProgress(responseTime()) }">
                                 <span data-bind="text: timeString(responseTime())"></span>
                             </div>
                         </div>
                         <label>Intervention time</label>
-                        <div class="progress">
+                        <div class="progress" data-bind="css: { 'progress-striped': status() == 1, 'active': status() == 1 }">
                             <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="progress-bar" data-bind="css: { 'progress-bar-success': interventionProgress(interventionTime()) <= 50, 'progress-bar-warning': interventionProgress(interventionTime()) > 50 && interventionProgress(interventionTime()) < 100, 'progress-bar-danger': interventionProgress(interventionTime()) == 100 }, style: { width: interventionProgress(interventionTime()) + '%' }, attr: { 'aria-valuenow': interventionProgress(interventionTime()) }">
                                 <span data-bind="text: timeString(interventionTime())"></span>
                             </div>
                         </div>
                         <label>Resolution time</label>
-                        <div class="progress progress-striped active">
+                        <div class="progress" data-bind="css: { 'progress-striped': status() == 3, 'active': status() == 3 }">
                             <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="progress-bar" data-bind="css: { 'progress-bar-success': resolutionProgress(resolutionTime()) <= 50, 'progress-bar-warning': resolutionProgress(resolutionTime()) > 50 && resolutionProgress(resolutionTime()) < 100, 'progress-bar-danger': resolutionProgress(resolutionTime()) == 100 }, style: { width: resolutionProgress(resolutionTime()) + '%' }, attr: { 'aria-valuenow': resolutionProgress(resolutionTime()) }">
                                 <span data-bind="text: timeString(resolutionTime())"></span>
                             </div>
@@ -122,7 +124,7 @@
                     </fieldset>
                 </div>
                 <div class="col-lg-8">
-                    <ul class="media-list">
+                    <ul class="media-list" data-bind="foreach: notes">
                         <li class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
@@ -131,95 +133,65 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title">
-                                        <span>Sergio Casagrande</span>
-                                        <small class="text-muted pull-right">Aug 27 17:28</small>
+                                        <span data-bind="text: author.cn"></span>
+                                        <small class="text-muted pull-right" data-bind="text: Date.create(created).format('{Mon} {d}, {hh}:{mm}')"></small>
                                     </div>
-                                    <small class="text-muted">via web</small>
+                                    <small class="text-muted">via <span data-bind="text: via"></span></small>
                                 </div>
+                                <!-- ko if: text -->
                                 <div class="panel-body">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel ultrices ligula.
-                                    Phasellus vestibulum fringilla ipsum nec imperdiet. Duis id accumsan erat.
-                                    Vestibulum neque purus, faucibus id sagittis ut, dictum quis purus.
-                                    Phasellus non nibh mollis, ullamcorper elit eu, dignissim lorem.
-                                    Mauris tincidunt leo non lorem ornare, eu vehicula lacus viverra.</p>
+                                    <p data-bind="text: text"></p>
                                 </div>
-                                <div class="panel-footer">
-                                    <div class="pull-right">
-                                        <span class="label label-info">New</span>
-                                    </div>
-                                    <span class="clearfix"></span>
-                                </div>
-                            </div>
-                        </div>
-                        </li>
-                        <li class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
-                        </a>
-                        <div class="media-body">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <span>Luca Marchioron</span>
-                                        <small class="text-muted pull-right">Aug 27 17:36</small>
-                                    </div>
-                                    <small class="text-muted">via web</small>
-                                </div>
-                                <div class="panel-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-user"></span> Giovanni Lovato</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <span class="label label-info">New</span>
-                                        <span class="glyphicon glyphicon-arrow-right"></span>
-                                        <span class="label label-warning">Assigned</span>
-                                    </div>
-                                    <span class="clearfix"></span>
-                                </div>
-                            </div>
-                        </div>
-                        </li>
-                        <li class="media">
-                        <a class="pull-left" href="#">
-                            <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
-                        </a>
-                        <div class="media-body">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="panel-title">
-                                        <span>Giovanni Lovato</span>
-                                        <small class="text-muted pull-right">Aug 27 18:36</small>
-                                    </div>
-                                    <small class="text-muted">via web</small>
-                                </div>
-                                <div class="panel-body">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel ultrices ligula.
-                                    Phasellus vestibulum fringilla ipsum nec imperdiet. Duis id accumsan erat.
-                                    Vestibulum neque purus, faucibus id sagittis ut, dictum quis purus.
-                                    Phasellus non nibh mollis, ullamcorper elit eu, dignissim lorem.
-                                    Mauris tincidunt leo non lorem ornare, eu vehicula lacus viverra.</p>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item"><span class="glyphicon glyphicon-file"></span> <a href="#">Manual.pdf</a><small class="text-muted pull-right">PDF (1.5 MB)</small></li>
-                                    <li class="list-group-item"><span class="glyphicon glyphicon-file"></span> <a href="#">configuration.xml</a><small class="text-muted pull-right">XML (86 KB)</small></li>
+                                <!-- /ko -->
+                                <ul class="list-group" data-bind="foreach: attachments">
+                                    <li class="list-group-item"><span class="glyphicon glyphicon-file"></span> <a href="#" data-bind="text: name"></a><small class="text-muted pull-right"><span data-bind="text: type"></span> (<span data-bind="text: size"></span>)</small></li>
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-user"></span> Giovanni Lovato</a>
-                                        <span class="glyphicon glyphicon-arrow-right"></span>
-                                        <a href="#" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-user"></span> Lorenzo Di Pace</a>
+                                        <!-- ko if: previousAssignee -->
+                                        <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-user"></span> <span data-bind="text: previousAssignee.cn"></span></a>
+                                        <span class="glyphicon glyphicon-arrow-right text-muted"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: currentAssignee -->
+                                        <a href="#" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-user"></span> <span data-bind="text: currentAssignee.cn"></span></a>
+                                        <!-- /ko -->
                                     </div>
                                     <div class="pull-right">
+                                        <!-- ko if: previousStatus !== null  -->
+                                        <!-- ko if: previousStatus == 0 -->
+                                        <span class="label label-info">New</span>
+                                        <!-- /ko -->
+                                        <!-- ko if: previousStatus == 1 -->
                                         <span class="label label-warning">Assigned</span>
-                                        <span class="glyphicon glyphicon-arrow-right"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: previousStatus == 2 -->
                                         <span class="label label-success">Working</span>
+                                        <!-- /ko -->
+                                        <!-- ko if: previousStatus == 3 -->
+                                        <span class="label label-default">Pending</span>
+                                        <!-- /ko -->
+                                        <span class="glyphicon glyphicon-arrow-right text-muted"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: currentStatus == 0 -->
+                                        <span class="label label-info">New</span>
+                                        <!-- /ko -->
+                                        <!-- ko if: currentStatus == 1 -->
+                                        <span class="label label-warning">Assigned</span>
+                                        <!-- /ko -->
+                                        <!-- ko if: currentStatus == 2 -->
+                                        <span class="label label-success">Working</span>
+                                        <!-- /ko -->
+                                        <!-- ko if: currentStatus == 3 -->
+                                        <span class="label label-default">Pending</span>
+                                        <!-- /ko -->
                                     </div>
                                     <span class="clearfix"></span>
                                 </div>
                             </div>
                         </div>
                         </li>
-                        <li class="media">
+                    </ul>
+                    <div class="media">
                         <a class="pull-left" href="#">
                             <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
                         </a>
@@ -263,8 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        </li>
-                    </ul>
+                    </div>
                 </div>
             </form>
         </div>
