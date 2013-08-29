@@ -7,6 +7,7 @@
         <!-- Bootstrap -->
         <link href="css/bootstrap.css" rel="stylesheet" />
         <link href="css/bootstrap-theme.css" rel="stylesheet" />
+        <link href="css/bootstrap-select.css" rel="stylesheet" />
         <link href="css/bootstrap-tokenfield.css" rel="stylesheet" />
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="js/jquery.js"></script>
@@ -16,6 +17,7 @@
         <script src="js/sugar.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.js"></script>
+        <script src="js/bootstrap-select.js"></script>
         <script src="js/bootstrap-tokenfield.js"></script>
         <script src="js/TicketViewModel.js"></script>
         <script>
@@ -25,6 +27,7 @@
                 ko.applyBindings(ticket);
                 $('input.tokenfield').tokenfield({
                 });
+                //$('select').selectpicker();
             });
             // ]]>
         </script>
@@ -99,7 +102,7 @@
                         <div class="form-group">
                             <span class="pull-right"><a href="#">cc me</a></span>
                             <label>CCs</label>
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control tokenfield" />
                         </div>
                     </fieldset>
                     <fieldset class="well">
@@ -119,7 +122,7 @@
                         </div>
                         <div class="form-group">
                             <label>Tags</label>
-                            <input name="tags" type="text" class="form-control tokenfield" />
+                            <input name="tags" type="text" class="form-control tokenfield" data-bind="value: tags().join(',')" />
                         </div>
                     </fieldset>
                 </div>
@@ -130,13 +133,15 @@
                             <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
                         </a>
                         <div class="media-body">
-                            <div class="panel panel-default">
+                            <div class="panel" data-bind="css: { 'panel-info' : public, 'panel-default' : !public }">
                                 <div class="panel-heading">
                                     <div class="panel-title">
                                         <span data-bind="text: author.cn"></span>
                                         <small class="text-muted pull-right" data-bind="text: Date.create(created).format('{Mon} {d}, {hh}:{mm}')"></small>
                                     </div>
-                                    <small class="text-muted">via <span data-bind="text: via"></span></small>
+                                    <span class="label label-info" data-bind="if: public">Public</span>
+                                    <span class="label label-default" data-bind="if: !public">Internal</span>
+                                    <small class="text-muted pull-right"><span data-bind="text: Date.create(created).relative()"></span> via <span data-bind="text: via"></span></small>
                                 </div>
                                 <!-- ko if: text -->
                                 <div class="panel-body">
@@ -196,7 +201,7 @@
                             <img class="media-object hidden-xs img-rounded" src="//placehold.it/64x64" alt="64x64" />
                         </a>
                         <div class="media-body">
-                            <div class="panel panel-default">
+                            <div class="panel-default">
                                 <div class="panel-heading">
                                     <div class="panel-title">
                                         <span>Giovanni Lovato</span>
@@ -211,7 +216,7 @@
                                 </ul>
                                 <div class="panel-footer">
                                     <div class="btn-group pull-left" data-toggle="buttons">
-                                        <label class="btn btn-primary active">
+                                        <label class="btn btn-info active">
                                             <input type="radio" name="public" value="1" checked="checked" /> Public reply
                                         </label>
                                         <label class="btn btn-default">

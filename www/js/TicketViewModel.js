@@ -1,4 +1,3 @@
-
 function Customer(customer) {
     this.name = ko.observable(customer.name);
 }
@@ -17,6 +16,7 @@ function Ticket(ticket) {
     this.responseTime = ko.observable();
     this.interventionTime = ko.observable();
     this.resolutionTime = ko.observable();
+    this.tags = ko.observableArray();
     this.notes = ko.observableArray();
 
     this.timeString = function(time) {
@@ -85,6 +85,7 @@ function Ticket(ticket) {
         this.responseTime(ticket.responseTime);
         this.interventionTime(ticket.interventionTime);
         this.resolutionTime(ticket.resolutionTime);
+        this.tags(ticket.tags);
         this.notes(ticket.notes);
 
         switch (ticket.status) {
@@ -127,12 +128,14 @@ var _ticket = {
     responseTime : 465,
     interventionTime : 3600,
     resolutionTime: 28800,
+    tags : [ 'foo', 'bar', 'baz' ],
     notes : [
         {
             author : {
                 cn : 'Sergio Casagrande'
             },
             created : '2013-08-27T17:28',
+            public : true,
             via : 'web',
             text : lipsum,
             attachments : [],
@@ -146,6 +149,7 @@ var _ticket = {
                 cn : 'Luca Marchioron'
             },
             created : '2013-08-27T17:36',
+            public : true,
             via : 'web',
             text : '',
             attachments : [],
@@ -161,6 +165,7 @@ var _ticket = {
                 cn : 'Giovanni Lovato'
             },
             created : '2013-08-27T18:36',
+            public : false,
             via : 'web',
             text : lipsum,
             attachments : [
